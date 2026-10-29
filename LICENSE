@@ -2,6 +2,12 @@ MIT License
 
 Copyright (c) 2026 Edward-Holmes
 
+SCOPE NOTICE: This license covers the SOURCE CODE in this repository only.
+No review corpus or annotation data is distributed with this repository
+(see README, "数据可用性声明" / Data Availability). Any data files that
+may appear locally under Data/ or Raw Data/ are expressly OUT OF SCOPE
+and must not be assumed to be licensed for redistribution.
+
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
 in the Software without restriction, including without limitation the rights
