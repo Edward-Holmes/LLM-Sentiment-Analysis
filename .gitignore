@@ -1,13 +1,17 @@
 .DS_Store
-Paper/_probe.txt
-Paper/main.aux
-Paper/main.log
-Paper/main.lot
-Paper/main.lof
-Paper/main.toc
-Paper/main.blg
-Paper/*.synctex.gz
 
-# 语料与产物数据一律不入库（合规要求，见 README 数据可用性声明）
+# ===== 合规要求：语料、产物数据与文稿一律不入库（见 README 数据可用性声明）=====
 Data/
 Raw Data/
+Paper/
+
+# ===== 通用临时/编辑器文件 =====
+*.synctex.gz
+*.aux
+*.log
+*.lot
+*.lof
+*.toc
+*.blg
+__pycache__/
+.ipynb_checkpoints/
