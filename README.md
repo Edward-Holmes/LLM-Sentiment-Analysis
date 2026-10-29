@@ -2,7 +2,7 @@
 
 中文外卖评论「隐晦侮辱识别」多技术路线比较研究——**代码仓库**。
 
-研究文稿与数据集不公开（数据合规，见下）；本仓库只包含分析脚本与合成示例数据。
+研究文稿与数据集不公开（数据合规，见下文「数据可用性」）；本仓库只包含分析脚本与合成示例数据。
 
 ## 研究概要
 
@@ -21,21 +21,32 @@
 ## 仓库结构
 
 ```
-scripts/            分析脚本（Jupyter notebook + Python）
-examples/           合成示例数据（与真实用户无关，仅示意字段口径）
+scripts/
+├── tfidf_features.ipynb              # 经典 ML：TF-IDF 特征 + 四种传统模型
+├── dl_sentiment.ipynb                # 深度学习：char-BiGRU 训练与评估
+├── dl_multi_seed.py                  # 深度学习：五种子批量训练脚本
+├── llm_api_prompt_annotation.ipynb   # LLM：API 标注（基础/增强两套提示词）
+├── llm_metrics.ipynb                 # LLM：方案评估指标计算
+├── method_comparison.ipynb           # 全方案统计比较（Bootstrap / Cochran's Q / McNemar+Holm）
+└── fleiss_kappa.ipynb                # 标注信度（Fleiss' κ）
+examples/
+└── synthetic_sample.csv              # 合成样例（与真实用户无关，仅示意字段口径）
 ```
 
-## 复现
+## 环境要求
 
-按 `scripts/` 中 notebook 的顺序运行即可完整复现全部数值：
+- Python 3.10+
+- 依赖：pandas / scikit-learn / torch / openai（LLM API 调用）/ matplotlib
+- LLM 标注脚本需要各厂商 API Key，通过环境变量注入，勿写入代码
 
-1. `dl_sentiment.ipynb` — char-BiGRU 训练与五种子集成
-2. `dl_multi_seed.py` — 多种子批量训练
-3. `tfidf_features.ipynb` — 经典 ML 特征工程
-4. `llm_api_prompt_annotation.ipynb` — LLM API 标注（基础/增强提示）
-5. `llm_metrics.ipynb` — LLM 方案评估
-6. `method_comparison.ipynb` — 全方案统计比较（Bootstrap / Cochran's Q / McNemar+Holm）
-7. `fleiss_kappa.ipynb` — 标注信度
+## 复现顺序
+
+1. `tfidf_features.ipynb` — 经典 ML 基线
+2. `dl_sentiment.ipynb` + `dl_multi_seed.py` — char-BiGRU 五种子集成
+3. `llm_api_prompt_annotation.ipynb` — LLM 标注（基础/增强提示）
+4. `llm_metrics.ipynb` — LLM 方案评估
+5. `fleiss_kappa.ipynb` — 标注信度检验
+6. `method_comparison.ipynb` — 全方案统计比较与价值层分析
 
 ## 数据可用性
 
@@ -43,11 +54,16 @@ examples/           合成示例数据（与真实用户无关，仅示意字段
   依数据使用约定**不可再分发**，故不在本仓库公开。
 - 依据学界通行惯例，可通过合理请求向作者获取（仅供同行评审与学术复核）。
 - `examples/synthetic_sample.csv` 为人工撰写的合成样例，字段口径与真实
-  语料一致，用于展示数据结构。
-- 本仓库的 [LICENSE](LICENSE) 仅覆盖代码，不覆盖任何语料或衍生数据。
+  语料一致（`类型 / 评论 / 负面性标签 / 侮辱性标签 / 备注`），用于展示数据结构。
+- 语料目录（`Data/`、`Raw Data/`）与研究文稿（`Paper/`）已列入
+  `.gitignore`，永不入库。
 
 ## 数值可信度声明
 
 全部数值由分析脚本从逐条预测与金标准重算，无手工转录；统计推断
 （Bootstrap CI、Cochran's Q、McNemar + Holm 校正、配对 ΔF1 置信区间）
 均在 `method_comparison.ipynb` 中可复现。
+
+## 许可
+
+[LICENSE](LICENSE) 仅覆盖本仓库代码；任何语料或衍生数据不受该许可覆盖。
